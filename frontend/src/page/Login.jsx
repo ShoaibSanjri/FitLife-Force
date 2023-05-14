@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
+import { AppContext } from '../contextApi/Context';
 
 
 const Login = () => {
     
 const initState = {email: "",password: ""};
+  
+    const {handleLogin} = useContext(AppContext)
 
     const [userDetails,setUserDetails]=useState(initState)
 
@@ -16,7 +19,7 @@ const initState = {email: "",password: ""};
 
       const handleSubmit=(e)=>{
       e.preventDefault()
-        if(userDetails.email=='' || userDetails.password==''){
+        if(userDetails.email==='' || userDetails.password===''){
             alert('Field Should Not Be Empty')
             return;
         }
@@ -29,10 +32,13 @@ const initState = {email: "",password: ""};
         }).then(res=>res.json())
         .then(res=>{
             console.log(res)
-            localStorage.setItem("token",res.token)
+            // localStorage.setItem("token",res.token)
+            // localStorage.setItem("name",res.name)
+            handleLogin(res)
         })
         .catch(err=>console.log(err))
         setUserDetails(initState)
+        
     }  
 
   let loginImg='https://wealthofgeeks.com/wp-content/uploads/2021/11/1242049_HealthyLifestyle_Option2_120721.jpg'
